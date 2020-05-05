@@ -1,0 +1,77 @@
+// opciones del scanner
+%option ...
+
+// El bloque de código %top{   }
+// es similar al bloque %{    %}
+// con diferencia que, el código en %top{ }
+// es relocalizado en la parte superior antes de 
+// las definiciones de flex, del archivo generado por flex.
+//
+// OBS: se pueden utilizar multiples bloques %top{   }
+// el orden se conserva en el archivo generado por flex.
+%top{
+/*
+Inclusión de archivos cabeceras (librerias) que contienen 
+las definiciónes/prototipos a utilizar para la composición del scanner lex.
+#include <.....>
+
+Definición de macros a utilizar
+#define ...
+
+otros macros del preprocesador ...
+*/
+}
+
+// sección de código bloque
+%{
+/*
+Todo texto especifiado con el bloque %{ %}
+se copia textualmente en el archivo 
+generado por flex.
+
+Esta sección se puede utilizar para declaraciones propias
+del lenguaje, como variables globales/del documento a utilizar
+y especificaciones de prototipos de funciones/procedimientos.
+int ...;
+static int ....;
+void ...();
+*/
+%}
+
+// sección de definiciones
+/*
+La sección de definiciones contiene declaraciones de definiciones de nombres
+simples para simplificar la especificación del analizador y 
+declaraciones de condiciones de inicio.
+
+Las definiciones de nombre tienen la forma:
+    name definition
+
+las definciones de nombres pueden ser referenciadas en la 
+sección de reglas con { }
+*/
+DIGIT    [0-9]
+ID       [a-z][a-z0-9]*
+
+// sección de reglas
+%%
+/*
+Las reglas a aplicar por cada patrón encontrado,
+tienen la forma 
+pattern   action
+
+Donde las acciones van declaradas en el bloque de {  },
+las mismas pueden contener operaciones con variables del
+documento, llamadas a funciones/procedimientos, retorno de valores, etc..
+*/
+
+\n 			{ chars++; lines++; }
+%%
+
+// sección de código definido por el usuario,
+// la sección es opcional.
+int main(int argc, char **argv)
+{
+	return 0;
+}
+// otras implementaciones o uso de prototipos de funciones/procedimientos, etc..
